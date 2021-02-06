@@ -9,7 +9,7 @@ public class player {
     private int hpMod = 0;
     private int xp = 0;
     private int armor = 10;
-    private monster monster;
+    private Monster monster;
     Random rand = new Random();
     Scanner myObj = new Scanner(System.in);
     String[][] armorSlots = {
@@ -19,7 +19,8 @@ public class player {
         {"boot","None","0"},
         {"offhand","None","0"} 
     };
-    HashMap<String, String> potions= new HashMap<>();
+    HashMap<Integer, String> potionSlots = new HashMap<>();
+
 
     public player(){}
 
@@ -33,8 +34,8 @@ public class player {
     }
     
     public void attack(){
-        if(dice(20) > monster.getArmor()){
-            int damage = dice(20);
+        if(dice(20)+hitMod > monster.getArmor()){
+            int damage = dice(20)+dmgMod;
             System.out.println("You struck the "+monster.getName()+" for "+damage+" damage!");
             monster.takeDamage(damage);
         }
@@ -80,6 +81,38 @@ public class player {
         }
 
     }
+
+    public void addPotions(String potionName, int val){
+        boolean cycle = true;
+        if(potionSlots.size() < 5){
+            potionSlots.put(val,potionName);
+            System.out.println(potionName+" was added to your inventory!");
+        }
+        else{
+            do{
+                System.out.println("Would you like to replace one of your potions?");
+                int j = 0;
+                for (String i : potionSlots.values()) {
+                    System.out.print(j+"."+i+"\n");
+                    j++;
+                }
+                System.out.println("Potion 1,2,3,4,5 or none");
+                String choice = myObj.nextLine();
+                if(choice.equals("1") || choice.equals("2") || choice.equals("3") || choice.equals("4") || choice.equals("5")){
+                    potionSlots.remove(Integer.valueOf(choice));
+                }
+                else if(choice.equals("none") || choice.equals("None")){
+                    System.out.println("No potion was replaced...");
+                }
+                else{
+                    System.out.println("Invalid input... Try again");
+                }
+
+            }while(cycle == true);
+        }
+
+    }
+
 
 
     public String getName() {
