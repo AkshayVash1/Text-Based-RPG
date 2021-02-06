@@ -9,6 +9,7 @@ public class player {
     private int hpMod = 0;
     private int xp = 0;
     private int armor = 10;
+    private int level = 1;
     private Monster monster;
     Random rand = new Random();
     Scanner myObj = new Scanner(System.in);
@@ -21,6 +22,8 @@ public class player {
     };
     HashMap<Integer, String> potionSlots = new HashMap<>();
 
+    String[] weapon = {"Broken Sword","0"};
+    
 
     public player(){}
 
@@ -56,6 +59,7 @@ public class player {
         if(armorSlots[row][2].equals("0")){
             armorSlots[row][1] = armorName;
             armorSlots[row][2] = Integer.toString(value);
+            armor = armor + value;
             System.out.println("Your '"+armorSlots[row][1]+"' has been replaced with '"+armorName+"'");
         }
         else{
@@ -64,8 +68,10 @@ public class player {
                 System.out.println("Yes or No:");
                 String choice = myObj.nextLine();
                 if(choice.equals("Y") || choice.equals("y") || choice.equals("Yes") || choice.equals("yes")){
+                    armor = armor - Integer.valueOf(armorSlots[row][2]);
                     armorSlots[row][1] = armorName;
                     armorSlots[row][2] = Integer.toString(value);
+                    armor = armor + value;
                     System.out.println("Your "+armorSlots[row][1]+"-piece has been replaced with"+armorName);
                     cycle = false;
                 }
@@ -113,6 +119,28 @@ public class player {
 
     }
 
+    public void addWeapon(String weaponName, int weaponDmg){
+        boolean cycle = true;
+        do{
+            System.out.println("Would you like to replace your "+weapon[0]+"?");
+            System.out.println("Yes or No?");
+            String choice = myObj.nextLine();
+            if(choice.equals("y") || choice.equals("Y") || choice.equals("yes") || choice.equals("Yes")){
+                System.out.println("Your "+weapon[0]+" was replaced with "+weaponName);
+                dmgMod = dmgMod - Integer.valueOf(weapon[1]);
+                weapon[0] = weaponName;
+                weapon[1] = Integer.toString(weaponDmg);
+                dmgMod = dmgMod + weaponDmg;
+            }
+            else if(choice.equals("n") || choice.equals("N") || choice.equals("No") || choice.equals("no")){
+                System.out.println("Your weapon was not replaced...");
+            }
+            else{
+                System.out.println("Invalid input... Try again");
+            }
+
+        }while(cycle == true);
+    }
 
 
     public String getName() {
@@ -124,25 +152,14 @@ public class player {
         return this.hp;
     }
 
+    public int getArmor(){
+        return this.armor;
+    }
+
     public void setHp(int hp) {
         this.hp = hp;
     }
 
-    public int getDmgMod() {
-        return this.dmgMod;
-    }
-
-    public void setDmgMod(int dmgMod) {
-        this.dmgMod = dmgMod;
-    }
-
-    public int getHitMod() {
-        return this.hitMod;
-    }
-
-    public void setHitMod(int hitMod) {
-        this.hitMod = hitMod;
-    }
 
     public int getHpMod() {
         return this.hpMod;
@@ -158,18 +175,17 @@ public class player {
 
     public void setXp(int xp) {
         this.xp = xp;
+        if(this.xp >= 1000 + level*500){
+            this.xp = this.xp -1000;
+            levelUp();
+        }
     }
 
-    public int getArmor() {
-        return this.armor;
-    }
-
-    public void setArmor(int armor) {
-        this.armor = armor;
+    public void levelUp(){
+        hp += 10;
     }
     
-
-
+    
     
 
 }
