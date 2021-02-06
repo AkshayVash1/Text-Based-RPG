@@ -15,7 +15,7 @@ public class Item {
     public int AC_b;
     public int AC_s;
 
-    
+
     public String type;
 
     public String quality; /*{"Lesser", "", "Greater" };*/
@@ -28,7 +28,7 @@ public class Item {
 
     public String armor_type;  {"Head", "Chest", "Legs", "Boot", "Shield"};
     */
-    
+
     public Item (String name, String type, String quality) {
         this.name = name;
         this.type = type;
@@ -36,7 +36,7 @@ public class Item {
         this.AC = 0;
 
         switch (type){
-            
+
             case "Sword":
                 this.attackMod = 0;
                 break;
@@ -71,12 +71,12 @@ public class Item {
 
             default:
                 break;
-        }      
-    } 
+        }
+    }
 
 /*
     public String main_drop() {
-        
+
         switch (type)
             default:
                 break:
@@ -84,9 +84,9 @@ public class Item {
             case "Weapon":
                 this.quality = this.quality[rand(len(quality))];
                 this.weapon_type = this.weapon_type[rand(len(weapon_type))];
-                
+
                 if (this.weapon_type == "Sword") {
-                    
+
                     if (this.quality == "Lesser") {
                         this.attackMod = 1;
                     }
@@ -99,7 +99,7 @@ public class Item {
                 }
 
                 if (this.weapon_type == "Greatsword") {
-                    
+
                     if (this.quality == "Lesser") {
                         this.attackMod = 2;
                     }
@@ -118,7 +118,7 @@ public class Item {
             case "Magic":
                 this.quality = this.quality[rand(len(quality))];
                 this.magic_type = this.magic_type[rand(len(magic_type))];
-                
+
                 if (this.magic_type == "Potion of Healing"){
 
                     if (this.quality == "Lesser") {
@@ -141,7 +141,7 @@ public class Item {
                 this.armor_type = this.armor_type[rand(len(armor_type))]
 
                 if (this.armor_type == "Head") {
-                    
+
                     if (this.quality == "Lesser") {
                         this.AC_h = 1;
                     }
@@ -154,7 +154,7 @@ public class Item {
                 }
 
                 if (this.armor_type == "Chest") {
-                    
+
                     if (this.quality == "Lesser") {
                         this.AC_c = 1;
                     }
@@ -167,7 +167,7 @@ public class Item {
                 }
 
                 if (this.armor_type == "Legs") {
-                    
+
                     if (this.quality == "Lesser") {
                         this.AC_l = 1;
                     }
@@ -180,7 +180,7 @@ public class Item {
                 }
 
                 if (this.armor_type == "Boot") {
-                    
+
                     if (this.quality == "Lesser") {
                         this.AC_b = 1;
                     }
@@ -193,7 +193,7 @@ public class Item {
                 }
 
                 if (this.armor_type == "Shield") {
-                    
+
                     if (this.quality == "Lesser") {
                         this.AC_s = 1;
                     }
@@ -212,10 +212,10 @@ public class Item {
                     break;
 
         return name;
-                    
+
     }
 */
-                
+
     public int getAC() {return this.AC;}
 
     public String getName() {return this.name;}
