@@ -58,13 +58,13 @@ public class Room {
             case "Start":
                 description = "You find yourself in a dark room, with nothing but crackde walls around you";
                 break;
+            default:
+                break;
         }
-
-
     }
 
-    public String enterRoom(){
-        return description;
+    public void enterRoom(){
+        System.out.println(description);
     }
     public String getType(){
         return type;

@@ -11,9 +11,10 @@ public class Map {
     private int size = 3;
     private int current_x;
     private int current_y;
+    private int floor;
     private Random rand = new Random();
 
-    public Map(){
+    public Map(int floor){
         int random_int;
         String type;
         int num_combat = 0;
@@ -51,7 +52,6 @@ public class Map {
                     }
                 }
             }
-
         }
 }
 
@@ -65,30 +65,38 @@ public class Map {
         return current_y;
     }
 
+    public int getFloor(){
+        return floor;
+    }
+
     public Room moveRooms(int direction){
         if(currentRoom.getCardinal()[direction] == 1){
             if(direction == 0){
                 currentRoom = layout[current_x][current_y];
                 current_x -= 1;
+                currentRoom.enterRoom();
             }
             else if(direction == 1){
                  currentRoom = layout[current_x][current_y];
                  current_y += 1;
+                currentRoom.enterRoom();
                 }
             else if(direction == 2){
                 currentRoom = layout[current_x][current_y];
                 current_x += 1;
+                currentRoom.enterRoom();
             }
             else if(direction == 3){
                 currentRoom = layout[current_x][current_y];
                 current_y -= 1;
+                currentRoom.enterRoom();
             }
         }
 
         return currentRoom;
     }
 
-    private void printList(){
+    public void printList(){
         for(int r = 0; r < size; r++){
             for(int c = 0; c < size; c++){
                 System.out.println(layout[r][c].getType());
@@ -100,7 +108,7 @@ public class Map {
 
     public static void main(String[] args) {
         System.out.println("hello");
-        Map map = new Map();
+        Map map = new Map(1);
 
         map.printList();
         System.out.println(""+map.current_x + ","+ map.current_y);
