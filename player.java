@@ -158,6 +158,9 @@ public class player {
 
     public void setHp(int hp) {
         this.hp = hp;
+        if(this.hp <= 0){
+            System.out.println("You died...");
+        }
     }
 
 
@@ -183,6 +186,7 @@ public class player {
 
     public void levelUp(){
         hp += 10;
+        hitMod+=1;
     }
     
     
