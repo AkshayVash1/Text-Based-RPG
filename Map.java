@@ -17,38 +17,47 @@ public class Map {
     public Map(int floor){
         int random_int;
         String type;
+        this.floor = floor;
         int num_combat = 0;
         int num_treasure = 0;
         int num_ascend = 0;
         int num_start = 0;
 
-        for(int r = 0; r < size; r++){
+        if(floor % 2 == 0){
+            Room room = new Room("Boss", 0, 0, floor);
+            layout[0][0] = room;
+            current_x = current_y = 0;
+            currentRoom = layout[0][0];
+        }
+        else{
+            for(int r = 0; r < size; r++){
 
-            for(int c = 0; c < size; c++){
+                for(int c = 0; c < size; c++){
 
-                while(layout[r][c] == null){
+                    while(layout[r][c] == null){
 
-                    random_int = rand.nextInt(4);
-                    type = roomTypes[random_int];
+                        random_int = rand.nextInt(4);
+                        type = roomTypes[random_int];
 
-                    if(type == "Ascend" && num_ascend != 1){
-                        layout[r][c] = new Room("Ascend", r, c, floor);
-                        num_ascend += 1;
-                    }
-                    else if(type == "Start" && num_start != 1){
-                        layout[r][c] = new Room("Start", r, c, floor);
-                        currentRoom = layout[r][c];
-                        current_x = r;
-                        current_y = c;
-                        num_start += 1;
-                    }
-                    else if(type == "Combat" && num_combat != 4){
-                        layout[r][c] = new Room("Combat", r, c, floor);
-                        num_combat += 1;
-                    }
-                    else if(type == "Treasure" && num_treasure != 3){
-                        layout[r][c] = new Room("Treasure", r, c, floor);
-                        num_treasure += 1;
+                        if(type == "Ascend" && num_ascend != 1){
+                            layout[r][c] = new Room("Ascend", r, c, floor);
+                            num_ascend += 1;
+                        }
+                        else if(type == "Start" && num_start != 1){
+                            layout[r][c] = new Room("Start", r, c, floor);
+                            currentRoom = layout[r][c];
+                            current_x = r;
+                            current_y = c;
+                            num_start += 1;
+                        }
+                        else if(type == "Combat" && num_combat != 4){
+                            layout[r][c] = new Room("Combat", r, c, floor);
+                            num_combat += 1;
+                        }
+                        else if(type == "Treasure" && num_treasure != 3){
+                            layout[r][c] = new Room("Treasure", r, c, floor);
+                            num_treasure += 1;
+                        }
                     }
                 }
             }
@@ -104,17 +113,5 @@ public class Map {
             }
 
         }
-    }
-
-    public static void main(String[] args) {
-        System.out.println("hello");
-        Map map = new Map(1);
-
-        map.printList();
-        System.out.println(""+map.current_x + ","+ map.current_y);
-
-        map.moveRooms(0);
-
-        System.out.println(""+map.current_x + ","+ map.current_y);
     }
 }
