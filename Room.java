@@ -56,11 +56,8 @@ public class Room {
         return type;
     }
 
-    public void getCardinal(){
-        for(int i = 0; i < 4; i++){
-            System.out.print(travelTable[i]);
-        }
-        System.out.println();
+    public int[] getCardinal(){
+        return travelTable;
     }
 
 }
