@@ -52,7 +52,8 @@ public class Monster{
                 this.xp = 300;
                 this.hitMod = 3;
                 this.attack = d(12);
-                for(int i = 1; i < level; ++i){
+                for(int i = 1; i < level; i++){
+                    System.out.println("aqqsdasd");
                     this.hp = this.hp + rand.nextInt(5)+1;
                     this.xp = this.xp +50;
                     this.armour = this.armour + 1;
@@ -92,12 +93,12 @@ public class Monster{
 
     public void setHP(int hp) {this.hp = hp;}
 
-    public void attack(){
-        if(d(20)+this.hitMod > player.getArmor()){
-            player.takeDamage(this.attack);
+    public void attack(player p){
+        if(d(20)+this.hitMod > p.getArmor()){
+            p.takeDamage(this.attack);
         }
         else{
-            System.out.println(player.getName() + "evaded the attack!");
+            System.out.println(p.getName() + "evaded the attack!");
         }
     }
 

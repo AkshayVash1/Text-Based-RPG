@@ -5,10 +5,11 @@ import java.util.Random;
 public class Room {
 
     private int travelTable[];
-    private String[] monster = {"Goblin", "Orc", "Ogre"};
+    private String[] monsterTypes = {"Goblin", "Orc", "Ogre"};
     private int N, E, S, W;
     private String description;
     private String type;
+    private Monster monster;
     private int floor;
     private Random rand = new Random();
 
@@ -45,8 +46,8 @@ public class Room {
 
         switch (type){
             case "Combat":
-                String monsterType = monster[rand.nextInt(monster.length)] ;
-                Monster monster = new Monster(monsterType, floor);
+                String monsterType = monsterTypes[rand.nextInt(monsterTypes.length)] ;
+                monster = new Monster(monsterType, floor);
                 description = "You enter the room and before you lies a resting" + monsterType + ".";
                 break;
             case "Treasure":
@@ -68,6 +69,14 @@ public class Room {
     }
     public String getType(){
         return type;
+    }
+
+    public Monster getMonster(){
+        return monster;
+    }
+
+    public void setDescription(String description){
+        this.description = description;
     }
 
     public int[] getCardinal(){

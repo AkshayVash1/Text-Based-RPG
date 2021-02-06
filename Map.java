@@ -32,22 +32,22 @@ public class Map {
                     type = roomTypes[random_int];
 
                     if(type == "Ascend" && num_ascend != 1){
-                        layout[r][c] = new Room("Ascend", r, c, size);
+                        layout[r][c] = new Room("Ascend", r, c, floor);
                         num_ascend += 1;
                     }
                     else if(type == "Start" && num_start != 1){
-                        layout[r][c] = new Room("Start", r, c, size);
+                        layout[r][c] = new Room("Start", r, c, floor);
                         currentRoom = layout[r][c];
                         current_x = r;
                         current_y = c;
                         num_start += 1;
                     }
                     else if(type == "Combat" && num_combat != 4){
-                        layout[r][c] = new Room("Combat", r, c, size);
+                        layout[r][c] = new Room("Combat", r, c, floor);
                         num_combat += 1;
                     }
                     else if(type == "Treasure" && num_treasure != 3){
-                        layout[r][c] = new Room("Treasure", r, c, size);
+                        layout[r][c] = new Room("Treasure", r, c, floor);
                         num_treasure += 1;
                     }
                 }
@@ -72,23 +72,23 @@ public class Map {
     public Room moveRooms(int direction){
         if(currentRoom.getCardinal()[direction] == 1){
             if(direction == 0){
-                currentRoom = layout[current_x][current_y];
                 current_x -= 1;
+                currentRoom = layout[current_x][current_y];
                 currentRoom.enterRoom();
             }
             else if(direction == 1){
-                 currentRoom = layout[current_x][current_y];
-                 current_y += 1;
+                current_y += 1;
+                currentRoom = layout[current_x][current_y];
                 currentRoom.enterRoom();
                 }
             else if(direction == 2){
-                currentRoom = layout[current_x][current_y];
                 current_x += 1;
+                currentRoom = layout[current_x][current_y];
                 currentRoom.enterRoom();
             }
             else if(direction == 3){
-                currentRoom = layout[current_x][current_y];
                 current_y -= 1;
+                currentRoom = layout[current_x][current_y];
                 currentRoom.enterRoom();
             }
         }

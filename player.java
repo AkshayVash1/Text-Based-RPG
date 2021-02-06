@@ -20,7 +20,7 @@ public class player {
         {"boot","None","0"},
         {"offhand","None","0"} 
     };
-    HashMap<Integer, String> potionSlots = new HashMap<>();
+    HashMap<Integer, Item> potionSlots = new HashMap<>();
 
     String[] weapon = {"Broken Sword","0"};
     
@@ -36,7 +36,7 @@ public class player {
         return rand.nextInt(size)+1; 
     }
     
-    public void attack(){
+    public void attack(Monster monster){
         if(dice(20)+hitMod > monster.getArmor()){
             int damage = dice(20)+dmgMod;
             System.out.println("You struck the "+monster.getName()+" for "+damage+" damage!");
@@ -88,24 +88,25 @@ public class player {
 
     }
 
-    public void addPotions(String potionName, int val){
+    public void addPotions(Item potion, int val){
         boolean cycle = true;
         if(potionSlots.size() < 5){
-            potionSlots.put(val,potionName);
-            System.out.println(potionName+" was added to your inventory!");
+            potionSlots.put(val,potion);
+            System.out.println(potion.getName() + " was added to your inventory!");
         }
         else{
             do{
                 System.out.println("Would you like to replace one of your potions?");
                 int j = 0;
-                for (String i : potionSlots.values()) {
-                    System.out.print(j+"."+i+"\n");
+                for (Item i : potionSlots.values()) {
+                    System.out.print(j+"."+i.getName()+"\n");
                     j++;
                 }
                 System.out.println("Potion 1,2,3,4,5 or none");
                 String choice = myObj.nextLine();
                 if(choice.equals("1") || choice.equals("2") || choice.equals("3") || choice.equals("4") || choice.equals("5")){
                     potionSlots.remove(Integer.valueOf(choice));
+                    potionSlots.put(Integer.valueOf(choice), potion);
                 }
                 else if(choice.equals("none") || choice.equals("None")){
                     System.out.println("No potion was replaced...");
@@ -140,6 +141,23 @@ public class player {
             }
 
         }while(cycle == true);
+    }
+
+    public void useHealthPotion(){
+        int pos = 1;
+        for(Item i : potionSlots.values()){
+            System.out.print(pos+". "+i.getName()+"\n");
+            pos++;
+        }
+        System.out.println(pos + ". back");
+        System.out.println("Which potion would you like to use?");
+        String choice = myObj.nextLine();
+        if(Integer.valueOf(choice) <= potionSlots.size() && Integer.valueOf(choice) > 0){
+            this.setHp(this.getHp() + potionSlots.get(Integer.valueOf(choice)).getHealing());
+        }
+        else if (choice.equalsIgnoreCase("back")){
+            return;
+        }
     }
 
 
