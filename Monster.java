@@ -60,7 +60,22 @@ public class Monster{
                     this.armour = this.armour + 1;
                     this.attack = this.attack +2;
                 }   
-                break;     
+                break;
+            
+            case "Follower of Demunes":
+                this.hp = 100;
+                this.xp = 500;
+                this.hitMod = 5;
+                this.attack = d(20);
+                this.armour = 14;
+                for(int i = 1; i < level/3; ++i){
+                    this.hp = this.hp +rand.nextInt(20)+1;
+                    this.xp = this.xp + 100;
+                    this.armour = this.armour +1;
+                    this.attack = this.attack +3;
+                }
+                break;    
+            
             default:
                 break;       
                       
