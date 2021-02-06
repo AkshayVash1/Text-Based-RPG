@@ -9,23 +9,23 @@ public class player {
     private int hpMod = 0;
     private int xp = 0;
     private int armor = 10;
+    private monster monster;
     Random rand = new Random();
     Scanner myObj = new Scanner(System.in);
-    HashMap<String, Integer> armorSlots= new HashMap<>();
+    String[][] armorSlots = {
+        {"head","None","0"},    
+        {"chest","None","0"}, 
+        {"legs","None","0"}, 
+        {"boot","None","0"},
+        {"offhand","None","0"} 
+    };
     HashMap<String, String> potions= new HashMap<>();
 
+    public player(){}
 
     public player(String name){
         this.name = name;
-        armorSlots.put("head",0);
-        armorSlots.put("chest",0);
-        armorSlots.put("leg",0);
-        armorSlots.put("boot",0);
-        armorSlots.put("offhand",0);
-
     }
-
-
 
     
     public int dice(int size){
@@ -50,20 +50,22 @@ public class player {
 
     }
     
-    public void addArmor(String armor,int value){
+    public void addArmor(String armorName,int row, int value){
         boolean cycle = true;
-        if(armorSlots.get(armor) == 0){
-            armorSlots.put(armor,value);
-            System.out.println("Your "+armor+"-piece has been replaced");
+        if(armorSlots[row][2].equals("0")){
+            armorSlots[row][1] = armorName;
+            armorSlots[row][2] = Integer.toString(value);
+            System.out.println("Your '"+armorSlots[row][1]+"' has been replaced with '"+armorName+"'");
         }
         else{
             do{
-                System.out.println("Would you like to replace your current item: "+armor+", Armor:"+armorSlots.get(armor));
+                System.out.println("Would you like to replace your current item: "+armorSlots[row][1]+",(Armor Value: "+armorSlots[row][2]+")");
                 System.out.println("Yes or No:");
                 String choice = myObj.nextLine();
                 if(choice.equals("Y") || choice.equals("y") || choice.equals("Yes") || choice.equals("yes")){
-                    armorSlots.put(armor,value);
-                    System.out.println("Your "+armor+"-piece has been replaced");
+                    armorSlots[row][1] = armorName;
+                    armorSlots[row][2] = Integer.toString(value);
+                    System.out.println("Your "+armorSlots[row][1]+"-piece has been replaced with"+armorName);
                     cycle = false;
                 }
                 else if(choice.equals("N") || choice.equals("n") || choice.equals("No") || choice.equals("no")){
