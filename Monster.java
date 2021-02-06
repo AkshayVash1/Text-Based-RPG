@@ -17,6 +17,8 @@ public class Monster{
     public Monster(){}
 
     public Monster(String name, int level){
+        System.out.println("A level" + level + name + "appeared!");
+        
         this.name = name;
         this.level = level;
 
@@ -58,15 +60,10 @@ public class Monster{
                     this.armour = this.armour + 1;
                     this.attack = this.attack +2;
                 }   
-<<<<<<< HEAD
                 break;     
             default:
                 break;       
-=======
-                break;  
-            default:
-                break;         
->>>>>>> 9892221959e0602ef5b2e0a1a0c4325bf0b1f9ac
+                      
         }
     }
 
