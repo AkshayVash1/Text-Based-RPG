@@ -11,18 +11,35 @@ public class gui extends JFrame implements ActionListener{
       }
 
     private JButton start,help;
-    private JLabel titleCard,back;
+    private JButton s;
+    private JLabel titleCard,back,stats,floor;
     private JTextArea input,output;
+    private JPanel miniMap,playerDetail;
+    private JLabel[][] map = new JLabel[3][3];
     ImageIcon startBack = new ImageIcon("Icons/start_menu.jpg");
+    ImageIcon treasureIn = new ImageIcon("Icons/treasure_in.jpg");
+    ImageIcon treasureOut = new ImageIcon("Icons/treasure_out.jpg");
+    ImageIcon combatIn = new ImageIcon("Icons/combat_in.jpg");
+    ImageIcon combatOut = new ImageIcon("Icons/combat_out.jpg");
+    ImageIcon ascendIn = new ImageIcon("Icons/ascend_in.jpg");
+    ImageIcon ascendOut = new ImageIcon("Icons/ascend_out.jpg");
+    ImageIcon boss = new ImageIcon("Icons/boss.jpg");
+
 
 
     public gui(){
         JFrame frame = new JFrame("Dungeon Dwellers");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         JPanel panel = new JPanel();
-        
+        miniMap = new JPanel();
+        playerDetail = new JPanel();
+
+      
         panel.setBounds(0,0,1200,750);
         panel.setBackground(Color.white);
+        playerDetail.setBounds(0,0,400,400);
+        playerDetail.setBackground(Color.black);
+        miniMap.setBounds(400,0,800,400);
 
         input = new JTextArea();
         output = new JTextArea();
@@ -36,9 +53,18 @@ public class gui extends JFrame implements ActionListener{
         
         start = new JButton("Start");
         help = new JButton("Help");
+        stats = new JLabel("HP,XP,LEVEL");
+        floor = new JLabel("Floor 1");
         titleCard = new JLabel("Dungeon Dwellers");
         back = new JLabel(startBack);
 
+        miniMap.setLayout(new GridLayout(3, 3));
+            for (int i = 0; i < 3; i++){
+                for (int j = 0; j < 3; j++){
+                    map[i][j] = new JLabel();
+                    miniMap.add(map[i][j]);
+                }
+            }
         
         start.setBounds(350,500,200,100);
         help.setBounds(650,500,200,100);
@@ -52,6 +78,8 @@ public class gui extends JFrame implements ActionListener{
         start.addActionListener(this);
         start.setActionCommand(Actions.START.name());
 
+        playerDetail.add(stats);
+
         panel.setLayout(null);
         panel.add(start);
         panel.add(help);
@@ -62,6 +90,8 @@ public class gui extends JFrame implements ActionListener{
         
 
         frame.setLayout(null);
+        frame.add(miniMap);
+        frame.add(playerDetail);
         frame.add(panel);
         frame.setBackground(Color.gray);
         frame.setSize(1200,750);
@@ -69,6 +99,8 @@ public class gui extends JFrame implements ActionListener{
         frame.setResizable(false);
         input.setVisible(false);
         output.setVisible(false);
+        miniMap.setVisible(false);
+        playerDetail.setVisible(false);
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -83,10 +115,62 @@ public class gui extends JFrame implements ActionListener{
             input.setVisible(true);
             output.setVisible(true);
             back.setIcon(null);
+            miniMap.setVisible(true);
+            playerDetail.setVisible(true);
+
         }
 
 
     }
+
+
+    public void updateStats(player player){
+        stats.setText("HP: "+player.getHp()+"/"+player.getMaxHP()+"\nXP: "+player.getXp()+"\nLevel: "+player.getLevel());
+    }
+
+    public void newMap(Map newMap){
+        
+        for (int i = 0; i < 3; i++){
+            for (int j = 0; j < 3; j++){
+                String type = newMap.getCurrentRoom().getType();
+
+                if(type.equalsIgnoreCase("combat")){
+                    map[i][j].setIcon(combatOut);          
+                }
+                else if(type.equalsIgnoreCase("treasure")){
+                    map[i][j].setIcon(treasureOut);
+                }
+                else if(type.equalsIgnoreCase("boss")){
+                    map[i][j].setIcon(boss);
+                }
+                else if(type.equalsIgnoreCase("ascend")){
+                    map[i][j].setIcon(ascendOut);
+                }
+            }
+        }
+    }
+
+    public void moveRoom(Map newMap){
+        int x = newMap.getCurr_x();
+        int y = newMap.getCurr_y();
+        String type = newMap.getCurrentRoom().getType();
+
+        if(type.equalsIgnoreCase("combat")){
+            map[x][y].setIcon(combatIn);
+        }
+        else if(type.equalsIgnoreCase("treasure")){
+            map[x][y].setIcon(treasureIn);
+        }
+        else if(type.equalsIgnoreCase("boss")){
+            map[x][y].setIcon(boss);
+        }
+        else if(type.equalsIgnoreCase("ascend")){
+            map[x][y].setIcon(ascendIn);
+        }
+
+    }
+
+
 
     public static void main(String args[]){
         new gui();
