@@ -5,11 +5,13 @@ import java.util.Random;
 public class Room {
 
     private int travelTable[];
-    private String[] monster = {"Goblin", "Orc", "Ogre"};
+    private String[] monsterTypes = {"Goblin", "Orc", "Ogre"};
     private int N, E, S, W;
     private String description;
     private String type;
+    private Monster monster;
     private int floor;
+    private boolean visited = false;
     private Random rand = new Random();
 
 
@@ -45,33 +47,53 @@ public class Room {
 
         switch (type){
             case "Combat":
-                String monsterType = monster[rand.nextInt(monster.length)] ;
-                Monster monster = new Monster(monsterType, floor);
-                description = "You enter the room and before you lies a resting" + monsterType + ".";
+                String monsterType = monsterTypes[rand.nextInt(monsterTypes.length)] ;
+                monster = new Monster(monsterType, floor);
+                description = "You enter the room and before you lies a resting " + monsterType + ".";
                 break;
             case "Treasure":
                 description = "You enter a brightly lit room. There are not any immediate threats nearby, but in the center of the room lies a battered wooden chest";
                 break;
             case "Ascend":
-                description = "As you enter the room a spiriling staircase leads into a dark room above you... Do you wish to ascend or continue expoling the floor?";
+                description = "As you enter the room a spiriling staircase leads into a dark room above you... Do you wish to ascend or continue exploring the floor?";
                 break;
             case "Start":
-                description = "You find yourself in a dark room, with nothing but crackde walls around you";
+                description = "You find yourself in a dark room, with nothing but cracked walls around you";
+                break;
+            case "Boss":
+                monster = new Monster("Follower of Demunes", floor);
+                description = "You enter a very large space and in the center stands a great " + monster.getName();
+                break;
+            default:
                 break;
         }
-
-
     }
 
-    public String enterRoom(){
-        return description;
+    public void enterRoom(){
+        System.out.println(description);
+    }
+
+    public void setVisited(){
+        this.visited = true;
     }
     public String getType(){
         return type;
     }
 
+    public Monster getMonster(){
+        return monster;
+    }
+
+    public void setDescription(String description){
+        this.description = description;
+    }
+
     public int[] getCardinal(){
         return travelTable;
+    }
+
+    public boolean hasVistited(){
+        return visited;
     }
 
 }

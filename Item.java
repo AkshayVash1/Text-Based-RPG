@@ -4,21 +4,19 @@ import java.util.Random;
 public class Item {
 
     Random rand = new Random();
-    public String name;
-    public String description;
-    public int attackMod;
-    public int healing;
-    public int AC;
-    public int AC_h;
-    public int AC_c;
-    public int AC_l;
-    public int AC_b;
-    public int AC_s;
+    private String name;
+    private String description;
+    private int damage;
+    private int damageMod;
+    private int ACMod;
+    private int healing;
+    private int slot;
+    private int AC;
 
 
-    public String type;
+    private String type;
 
-    public String quality; /*{"Lesser", "", "Greater" };*/
+    private String quality; /*{"Lesser", "", "Greater" };*/
 
 
     /*
@@ -28,7 +26,27 @@ public class Item {
 
     public String armor_type;  {"Head", "Chest", "Legs", "Boot", "Shield"};
     */
+    public Item (String name, String quality){
+        this.name = name;
+        this.quality = quality;
+        int mod = 1;
 
+        switch(quality){
+            case "Lesser":
+                mod = 2;
+                break;
+            case "Normal":
+                mod = 3;
+                break;
+            case "Greater":
+                mod = 5;
+                break;
+            default:
+                break;
+        }
+
+        this.healing = 10 * mod;
+    }
     public Item (String name, String type, String quality) {
         this.name = name;
         this.type = type;
@@ -38,35 +56,43 @@ public class Item {
         switch (type){
 
             case "Sword":
-                this.attackMod = 0;
+                this.damage = 1;
+                setDamageMod(quality);
                 break;
 
             case "Greatsword":
-                this.attackMod = 0;
-                break;
-
-            case "Potion of Healing":
-                this.healing = 0;
+                this.damage = 3;
+                setDamageMod(quality);
                 break;
 
             case "Head":
-                this.AC_h = 0;
+                this.AC = 0;
+                setAC(quality);
+                slot = 0;
                 break;
 
             case "Chest":
-                this.AC_c = 0;
+                this.AC = 0;
+                setAC(quality);
+                slot = 1;
                 break;
 
             case "Legs":
-                this.AC_l = 0;
+                this.AC = 0;
+                setAC(quality);
+                slot = 2;
                 break;
 
             case "Boots":
-                this.AC_b = 0;
+                this.AC = 0;
+                setAC(quality);
+                slot = 3;
                 break;
 
             case "Shield":
-                this.AC_s = 0;
+                this.AC = 0;
+                setAC(quality);
+                slot = 4;
                 break;
 
             default:
@@ -74,147 +100,39 @@ public class Item {
         }
     }
 
-/*
-    public String main_drop() {
-
-        switch (type)
-            default:
-                break:
-
-            case "Weapon":
-                this.quality = this.quality[rand(len(quality))];
-                this.weapon_type = this.weapon_type[rand(len(weapon_type))];
-
-                if (this.weapon_type == "Sword") {
-
-                    if (this.quality == "Lesser") {
-                        this.attackMod = 1;
-                    }
-                    if (this.quality == "") {
-                        this.attackMod = 2;
-                    }
-                    if (this.quality == "Greater") {
-                        this.attackMod = 3;
-                    }
-                }
-
-                if (this.weapon_type == "Greatsword") {
-
-                    if (this.quality == "Lesser") {
-                        this.attackMod = 2;
-                    }
-                    if (this.quality == "") {
-                        this.attackMod = 4;
-                    }
-                    if (this.quality == "Greater") {
-                        this.attackMod = 6;
-                    }
-                }
-
-                name = this.quality + this.weapon_type;
-
-                break;
-
-            case "Magic":
-                this.quality = this.quality[rand(len(quality))];
-                this.magic_type = this.magic_type[rand(len(magic_type))];
-
-                if (this.magic_type == "Potion of Healing"){
-
-                    if (this.quality == "Lesser") {
-                        this.healing = dice(11);
-                    }
-                    if (this.quality == "") {
-                        this.healing = dice(16);
-                    }
-                    if (this.quality == "Greater") {
-                        this.healing = dice(21);
-                    }
-                }
-
-                name = this.quality + this.magic_type;
-
-                break;
-
-            case "Armor":
-                this.quality = this.quality[rand(len(quality))];
-                this.armor_type = this.armor_type[rand(len(armor_type))]
-
-                if (this.armor_type == "Head") {
-
-                    if (this.quality == "Lesser") {
-                        this.AC_h = 1;
-                    }
-                    if (this.quality == "") {
-                        this.AC_h = 2;
-                    }
-                    if (this.quality == "Greater") {
-                        this.AC_h = 3;
-                    }
-                }
-
-                if (this.armor_type == "Chest") {
-
-                    if (this.quality == "Lesser") {
-                        this.AC_c = 1;
-                    }
-                    if (this.quality == "") {
-                        this.AC_c = 2;
-                    }
-                    if (this.quality == "Greater") {
-                        this.AC_c = 3;
-                    }
-                }
-
-                if (this.armor_type == "Legs") {
-
-                    if (this.quality == "Lesser") {
-                        this.AC_l = 1;
-                    }
-                    if (this.quality == "") {
-                        this.AC_l = 2;
-                    }
-                    if (this.quality == "Greater") {
-                        this.AC_l = 3;
-                    }
-                }
-
-                if (this.armor_type == "Boot") {
-
-                    if (this.quality == "Lesser") {
-                        this.AC_b = 1;
-                    }
-                    if (this.quality == "") {
-                        this.AC_b = 2;
-                    }
-                    if (this.quality == "Greater") {
-                        this.AC_b = 3;
-                    }
-                }
-
-                if (this.armor_type == "Shield") {
-
-                    if (this.quality == "Lesser") {
-                        this.AC_s = 1;
-                    }
-                    if (this.quality == "") {
-                        this.AC_s = 2;
-                    }
-                    if (this.quality == "Greater") {
-                        this.AC_s = 3;
-                    }
-                }
-
-                this.AC = this.AC_h + this.AC_c + this.AC_l + this.AC_b + this.AC_s;
-
-                name = this.quality + this.armor_type;
-
-                    break;
-
-        return name;
-
+private void setAC(String quality){
+    switch(quality){
+        case "Worn":
+            ACMod = 1;
+            break;
+        case "Normal":
+            ACMod = 2;
+            break;
+        case "Pristine":
+            ACMod = 3;
+            break;
     }
-*/
+    this.AC = this.AC + ACMod;
+}
+
+private void setDamageMod(String quality){
+    switch(quality){
+        case "Worn":
+            damageMod = 1;
+            break;
+        case "Normal":
+            damageMod = 2;
+            break;
+        case "Pristine":
+            damageMod = 3;
+            break;
+    }
+    this.damage = this.damage + damageMod;
+}
+
+    public int getSlot(){ return slot;}
+
+    public String getType(){ return type; }
 
     public int getAC() {return this.AC;}
 
@@ -222,6 +140,6 @@ public class Item {
 
     public int getHealing() {return this.healing;}
 
-    public int hitMod() {return this.attackMod;}
+    public int getDamageMod() {return this.damage;}
 
 }

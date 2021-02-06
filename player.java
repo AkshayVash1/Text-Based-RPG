@@ -6,7 +6,7 @@ public class player {
     private int hp = 50;
     private int dmgMod = 0;
     private int hitMod = 0;
-    private int hpMod = 0;
+    private int maxHp = 50;
     private int xp = 0;
     private int armor = 10;
     private int level = 1;
@@ -20,7 +20,7 @@ public class player {
         {"boot","None","0"},
         {"offhand","None","0"} 
     };
-    HashMap<Integer, String> potionSlots = new HashMap<>();
+    HashMap<Integer, Item> potionSlots = new HashMap<>();
 
     String[] weapon = {"Broken Sword","0"};
     
@@ -36,9 +36,12 @@ public class player {
         return rand.nextInt(size)+1; 
     }
     
-    public void attack(){
+    public void attack(Monster monster){
+        System.out.println("TO HIT: " + hitMod);
         if(dice(20)+hitMod > monster.getArmor()){
-            int damage = dice(20)+dmgMod;
+            int roll = dice(20);
+            int damage = roll+dmgMod;
+            System.out.println("ROLL: " + roll + "| MOD: " + dmgMod);
             System.out.println("You struck the "+monster.getName()+" for "+damage+" damage!");
             monster.takeDamage(damage);
         }
@@ -57,10 +60,11 @@ public class player {
     public void addArmor(String armorName,int row, int value){
         boolean cycle = true;
         if(armorSlots[row][2].equals("0")){
+            System.out.println("Your '"+armorSlots[row][1]+"' has been replaced with '"+armorName+"'");
+
             armorSlots[row][1] = armorName;
             armorSlots[row][2] = Integer.toString(value);
             armor = armor + value;
-            System.out.println("Your '"+armorSlots[row][1]+"' has been replaced with '"+armorName+"'");
         }
         else{
             do{
@@ -75,7 +79,7 @@ public class player {
                     System.out.println("Your "+armorSlots[row][1]+"-piece has been replaced with"+armorName);
                     cycle = false;
                 }
-                else if(choice.equals("N") || choice.equals("n") || choice.equals("No") || choice.equals("no")){
+                else if(choice.equalsIgnoreCase("N") || choice.equalsIgnoreCase("No")){
                     System.out.println("Your "+armor+"-piece has not been replaced");
                     cycle = false;
                 }
@@ -83,32 +87,34 @@ public class player {
                     System.out.println("Invalid input... Try again");
                 }
             }while(cycle == true);
-            
         }
 
     }
 
-    public void addPotions(String potionName, int val){
+    public void addPotions(Item potion, int val){
         boolean cycle = true;
         if(potionSlots.size() < 5){
-            potionSlots.put(val,potionName);
-            System.out.println(potionName+" was added to your inventory!");
+            potionSlots.put(val,potion);
+            //System.out.println(potion.getName() + " was added to your inventory!");
         }
         else{
             do{
                 System.out.println("Would you like to replace one of your potions?");
-                int j = 0;
-                for (String i : potionSlots.values()) {
-                    System.out.print(j+"."+i+"\n");
+                int j = 1;
+                for (Item i : potionSlots.values()) {
+                    System.out.print(j+"."+i.getName()+"\n");
                     j++;
                 }
                 System.out.println("Potion 1,2,3,4,5 or none");
                 String choice = myObj.nextLine();
                 if(choice.equals("1") || choice.equals("2") || choice.equals("3") || choice.equals("4") || choice.equals("5")){
-                    potionSlots.remove(Integer.valueOf(choice));
+                    potionSlots.remove(Integer.valueOf(choice)-1);
+                    potionSlots.put(Integer.valueOf(choice)-1, potion);
+                    cycle = false;
                 }
                 else if(choice.equals("none") || choice.equals("None")){
                     System.out.println("No potion was replaced...");
+                    cycle = false;
                 }
                 else{
                     System.out.println("Invalid input... Try again");
@@ -131,9 +137,11 @@ public class player {
                 weapon[0] = weaponName;
                 weapon[1] = Integer.toString(weaponDmg);
                 dmgMod = dmgMod + weaponDmg;
+                cycle = false;
             }
             else if(choice.equals("n") || choice.equals("N") || choice.equals("No") || choice.equals("no")){
                 System.out.println("Your weapon was not replaced...");
+                cycle = false;
             }
             else{
                 System.out.println("Invalid input... Try again");
@@ -142,11 +150,51 @@ public class player {
         }while(cycle == true);
     }
 
+    public void useHealthPotion(){
+        int pos = 1;
+        for(Item i : potionSlots.values()){
+            System.out.print(pos+". "+i.getName()+"\n");
+            pos++;
+        }
+        System.out.println(pos + ". back");
+        System.out.println("Which potion would you like to use?");
+        String choice = myObj.nextLine();
+        if(Integer.valueOf(choice) <= potionSlots.size() && Integer.valueOf(choice) > 0){
+            int healing = potionSlots.get(Integer.valueOf(choice)-1).getHealing();
+            this.setHp(this.getHp() + healing);
+            System.out.println("You healed " + healing + " HP!");
+            potionSlots.remove(Integer.valueOf(choice)-1);
+        }
+        else if (choice.equalsIgnoreCase("back")){
+            return;
+        }
+    }
+
+    public HashMap<Integer, Item> getPotionSlots(){
+        return potionSlots;
+    }
+
+    public void printInventory(){
+        int j = 1;
+        if(potionSlots.size() == 0){
+            System.out.println("Your bag is empty...");
+        }
+        else{
+            System.out.println("You search through your bag...");
+            for(Item i : potionSlots.values()){
+                System.out.println(j+"."+i.getName());
+                j++;
+            }
+        }
+    }
+
+    public int getDamageMod(){
+        return dmgMod;
+    }
 
     public String getName() {
         return this.name;
     }
-
 
     public int getHp() {
         return this.hp;
@@ -157,19 +205,24 @@ public class player {
     }
 
     public void setHp(int hp) {
-        this.hp = hp;
+        if(this.hp + hp <= maxHp){
+            this.hp = hp;
+        }
+        else{
+            this.hp = maxHp;
+        }
         if(this.hp <= 0){
             System.out.println("You died...");
         }
     }
 
 
-    public int getHpMod() {
-        return this.hpMod;
+    public int getMaxHP() {
+        return this.maxHp;
     }
 
-    public void setHpMod(int hpMod) {
-        this.hpMod = hpMod;
+    public void setMaxHP(int hpMod) {
+        this.maxHp += hpMod;
     }
 
     public int getXp() {
@@ -177,19 +230,21 @@ public class player {
     }
 
     public void setXp(int xp) {
-        this.xp = xp;
-        if(this.xp >= 1000 + level*500){
-            this.xp = this.xp -1000;
+        this.xp += xp;
+        if(this.xp >= 250 + level*250){
+            this.xp = this.xp - (250 + level*250);
             levelUp();
         }
     }
 
     public void levelUp(){
-        hp += 10;
+        level++;
+        maxHp += 10;
+        hp = maxHp;
         hitMod+=1;
+
+        System.out.println("You leveled up!");
+        System.out.println("New Level: " + level +"\n\t Hp: " + hp + "\n\t hitMod: " + hitMod);
     }
-    
-    
-    
 
 }

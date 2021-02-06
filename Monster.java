@@ -24,7 +24,7 @@ public class Monster{
             case "Goblin":
                 this.hp = rand.nextInt(5) + 15;
                 this.xp = 100;
-                this.attack = d(8);
+                this.attack = 8;
                 this.hitMod = 2;
                 for(int i = 1; i < level; ++i){
                     this.hp = this.hp + rand.nextInt(5)+1;
@@ -37,10 +37,10 @@ public class Monster{
             case "Orc":
                 this.hp = rand.nextInt(5) + 20;
                 this.xp = 200;
-                this.attack = d(10);
+                this.attack = 10;
                 this.hitMod = 3;
                 for(int i = 1; i < level; ++i){
-                    this.hp = this.hp + rand.nextInt(5)+1;
+                    this.hp = this.hp + rand.nextInt(8)+1;
                     this.xp = this.xp +50;
                     this.armour = this.armour +1;
                     this.attack = this.attack +2;
@@ -51,29 +51,29 @@ public class Monster{
                 this.hp = rand.nextInt(5) + 25;
                 this.xp = 300;
                 this.hitMod = 3;
-                this.attack = d(12);
-                for(int i = 1; i < level; ++i){
-                    this.hp = this.hp + rand.nextInt(5)+1;
+                this.attack = 12;
+                for(int i = 1; i < level; i++){
+                    this.hp = this.hp + rand.nextInt(10)+1;
                     this.xp = this.xp +50;
                     this.armour = this.armour + 1;
                     this.attack = this.attack +2;
-                }   
+                }
                 break;
              case "Follower of Demunes":
                 this.hp = 100;
                 this.xp = 500;
                 this.hitMod = 5;
-                this.attack = d(20);
+                this.attack = 20;
                 this.armour = 14;
-                for(int i = 1; i < level/3; ++i){
+                for(int i = 1; i < level/4; ++i){
                     this.hp = this.hp +rand.nextInt(20)+1;
                     this.xp = this.xp + 100;
                     this.armour = this.armour +1;
                     this.attack = this.attack +3;
                 }
-                break;    
+                break;
             default:
-                break;       
+                break;
         }
     }
 
@@ -89,12 +89,12 @@ public class Monster{
 
     public void setHP(int hp) {this.hp = hp;}
 
-    public void attack(){
-        if(d(20)+this.hitMod > player.getArmor()){
-            player.takeDamage(this.attack);
+    public void attack(player p){
+        if(d(20)+this.hitMod > p.getArmor()){
+            p.takeDamage(d(this.attack));
         }
         else{
-            System.out.println(player.getName() + "evaded the attack!");
+            System.out.println(p.getName() + "evaded the attack!");
         }
     }
 
