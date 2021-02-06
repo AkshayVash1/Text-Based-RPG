@@ -17,8 +17,6 @@ public class Monster{
     public Monster(){}
 
     public Monster(String name, int level){
-        System.out.println("A level" + level + name + "appeared!");
-        
         this.name = name;
         this.level = level;
 
