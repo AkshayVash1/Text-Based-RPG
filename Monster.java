@@ -58,7 +58,9 @@ public class Monster{
                     this.armour = this.armour + 1;
                     this.attack = this.attack +2;
                 }   
-                break;            
+                break;     
+            default:
+                break;       
         }
     }
 
