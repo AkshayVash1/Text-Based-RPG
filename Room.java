@@ -36,6 +36,7 @@ public class Room {
         }
 
         this.travelTable = new int [] {N, E, S, W};
+        this.type = type;
 
         switch (type){
             case "Combat":
@@ -44,10 +45,22 @@ public class Room {
                 break;
             case "Ascend":
                 break;
+            case "Start":
+                break;
         }
 
-        
 
+    }
+
+    public String getType(){
+        return type;
+    }
+
+    public void getCardinal(){
+        for(int i = 0; i < 4; i++){
+            System.out.print(travelTable[i]);
+        }
+        System.out.println();
     }
 
 }
