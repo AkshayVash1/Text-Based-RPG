@@ -152,8 +152,9 @@ public class player {
 
     public void useHealthPotion(){
         int pos = 1;
-        for(Item i : potionSlots.values()){
-            System.out.print(pos+". "+i.getName()+"\n");
+        Set<Integer> potionKeys = potionSlots.keySet();
+        for(int i : potionKeys){
+            System.out.print(pos+". "+ potionSlots.get(i).getName()+"\n");
             pos++;
         }
         System.out.println(pos + ". back");
