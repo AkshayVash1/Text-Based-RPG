@@ -60,8 +60,7 @@ public class Monster{
                     this.attack = this.attack +2;
                 }   
                 break;
-            
-            case "Follower of Demunes":
+             case "Follower of Demunes":
                 this.hp = 100;
                 this.xp = 500;
                 this.hitMod = 5;
@@ -74,10 +73,8 @@ public class Monster{
                     this.attack = this.attack +3;
                 }
                 break;    
-            
             default:
                 break;       
-                      
         }
     }
 
