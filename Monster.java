@@ -60,12 +60,12 @@ public class Monster{
                 }
                 break;
              case "Follower of Demunes":
-                this.hp = 5;
+                this.hp = 100;
                 this.xp = 500;
                 this.hitMod = 5;
                 this.attack = 20;
                 this.armour = 14;
-                for(int i = 1; i < level/3; ++i){
+                for(int i = 1; i < level/4; ++i){
                     this.hp = this.hp +rand.nextInt(20)+1;
                     this.xp = this.xp + 100;
                     this.armour = this.armour +1;

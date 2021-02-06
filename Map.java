@@ -23,7 +23,7 @@ public class Map {
         int num_ascend = 0;
         int num_start = 0;
 
-        if(floor % 2 == 0){
+        if(floor % 4 == 0){
             Room room = new Room("Boss", 0, 0, floor);
             layout[0][0] = room;
             current_x = current_y = 0;
