@@ -9,7 +9,7 @@ public class Monster{
     private int armour = 10;
     private int hitMod;
     Random rand = new Random();
-    private player player;
+    private player player = new player();
     
     private int d(int size){return rand.nextInt(size) + 1;}
 
@@ -58,9 +58,15 @@ public class Monster{
                     this.armour = this.armour + 1;
                     this.attack = this.attack +2;
                 }   
+<<<<<<< HEAD
                 break;     
             default:
                 break;       
+=======
+                break;  
+            default:
+                break;         
+>>>>>>> 9892221959e0602ef5b2e0a1a0c4325bf0b1f9ac
         }
     }
 
@@ -78,8 +84,15 @@ public class Monster{
 
     public void attack(){
         if(d(20)+this.hitMod > player.getArmor()){
-            
+            player.takeDamage(this.attack);
         }
+        else{
+            System.out.println(player.getName() + "evaded the attack!");
+        }
+    }
+
+    public void takeDamage(int dmg){
+        this.hp = this.hp - dmg;
     }
 
 
