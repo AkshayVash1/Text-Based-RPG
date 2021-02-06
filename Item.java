@@ -5,7 +5,7 @@ public class Item {
     Random rand = new Random();
     public String name;
     public String description;
-    public int hitMod;
+    public int attackMod;
     public int healing;
     public int AC;
     public int AC_h;
@@ -35,16 +35,13 @@ public class Item {
         this.AC = 0;
 
         switch (type){
-
-            default:
-                break;
             
             case "Sword":
-                this.hitMod = 0;
+                this.attackMod = 0;
                 break;
 
             case "Greatsword":
-                this.hitMod = 0;
+                this.attackMod = 0;
                 break;
 
             case "Potion of Healing":
@@ -70,8 +67,10 @@ public class Item {
             case "Shield":
                 this.AC_s = 0;
                 break;
-        }
 
+            default:
+                break;
+        }      
     } 
 
 /*
@@ -88,26 +87,26 @@ public class Item {
                 if (this.weapon_type == "Sword") {
                     
                     if (this.quality == "Lesser") {
-                        this.hitMod = 1;
+                        this.attackMod = 1;
                     }
                     if (this.quality == "") {
-                        this.hitMod = 2;
+                        this.attackMod = 2;
                     }
                     if (this.quality == "Greater") {
-                        this.hitMod = 3;
+                        this.attackMod = 3;
                     }
                 }
 
                 if (this.weapon_type == "Greatsword") {
                     
                     if (this.quality == "Lesser") {
-                        this.hitMod = 2;
+                        this.attackMod = 2;
                     }
                     if (this.quality == "") {
-                        this.hitMod = 4;
+                        this.attackMod = 4;
                     }
                     if (this.quality == "Greater") {
-                        this.hitMod = 6;
+                        this.attackMod = 6;
                     }
                 }
 
@@ -222,6 +221,6 @@ public class Item {
 
     public int getHealing() {return this.healing;}
 
-    public int hitMod() {return this.hitMod;}
+    public int hitMod() {return this.attackMod;}
 
 }
