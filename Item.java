@@ -35,9 +35,6 @@ public class Item {
         this.AC = 0;
 
         switch (type){
-
-            default:
-                break;
             
             case "Sword":
                 this.hitMod = 0;
@@ -70,8 +67,10 @@ public class Item {
             case "Shield":
                 this.AC_s = 0;
                 break;
-        }
 
+            default:
+                break;
+        }      
     } 
 
 /*
