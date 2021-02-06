@@ -1,10 +1,10 @@
-import java.util.random;
+import java.util.Random;
 
 public class Item {
 
     Random rand = new Random();
-    public String[] name;
-    public String[] description;
+    public String name;
+    public String description;
     public int hitMod;
     public int healing;
     public int AC;
@@ -14,51 +14,73 @@ public class Item {
     public int AC_b;
     public int AC_s;
 
-    public String[] = type = {
-        {"Weapon", "Magic", "Armor"}
-    };
+    
+    public String type;
 
-    public String[] quality = {
-        {"Lesser", "", "Greater"}, 
-    };
+    public String quality; /*{"Lesser", "", "Greater" };*/
 
-    public String[] weapon_type = {
-        {"Sword", "Greatsword"}
-    };
 
-    public String[] magic_type = {
-        {"Potion of Healing"}
-    };
+    /*
+    public String weapon_type; /*{"Sword", "Greatsword"};
 
-    public String[][] armor_type = {
-        {"Head", "Chest", "Legs", "Boot", "Shiedl"}
-    };
+    public String magic_type; {"Potion of Healing"};
 
-    public Item (String: name, String description, String type, String quality) {
+    public String armor_type;  {"Head", "Chest", "Legs", "Boot", "Shield"};
+    */
+    
+    public Item (String name, String type, String quality) {
         this.name = name;
-        this.description = description;
-        this.hitMod = 0;
-        this.healing = 0;
-        this.AC = 0;
-        this.AC_h = 0;
-        this.AC_c = 0;
-        this.AC_l = 0;
-        this.AC_b = 0;
-        this.AC_s = 0;
         this.type = type;
         this.quality = quality;
-        this.weapon_type = weapon_type;
-        this.magic_type = magic_type;
-        this.armor_type = armor_type;
+        this.AC = 0;
+
+        switch (type){
+
+            default:
+                break;
+            
+            case "Sword":
+                this.hitMod = 0;
+                break;
+
+            case "Greatsword":
+                this.hitMod = 0;
+                break;
+
+            case "Potion of Healing":
+                this.healing = 0;
+                break;
+
+            case "Head":
+                this.AC_h = 0;
+                break;
+
+            case "Chest":
+                this.AC_c = 0;
+                break;
+
+            case "Legs":
+                this.AC_l = 0;
+                break;
+
+            case "Boots":
+                this.AC_b = 0;
+                break;
+
+            case "Shield":
+                this.AC_s = 0;
+                break;
+        }
+
     } 
 
-
-
+/*
     public String main_drop() {
         
         switch (type)
             default:
                 break:
+
             case "Weapon":
                 this.quality = this.quality[rand(len(quality))];
                 this.weapon_type = this.weapon_type[rand(len(weapon_type))];
@@ -91,7 +113,7 @@ public class Item {
 
                 name = this.quality + this.weapon_type;
 
-            break;
+                break;
 
             case "Magic":
                 this.quality = this.quality[rand(len(quality))];
@@ -112,7 +134,7 @@ public class Item {
 
                 name = this.quality + this.magic_type;
 
-            break;
+                break;
 
             case "Armor":
                 this.quality = this.quality[rand(len(quality))];
@@ -187,14 +209,19 @@ public class Item {
 
                 name = this.quality + this.armor_type;
 
-                break;
+                    break;
 
-                return name;
-            }
-
+        return name;
+                    
+    }
+*/
                 
+    public int getAC() {return this.AC;}
 
+    public String getName() {return this.name;}
 
+    public int getHealing() {return this.healing;}
 
+    public int hitMod() {return this.hitMod;}
 
 }
