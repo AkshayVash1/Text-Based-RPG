@@ -9,6 +9,7 @@ public class player {
     private int hpMod = 0;
     private int xp = 0;
     private int armor = 10;
+    private int level = 1;
     private Monster monster;
     Random rand = new Random();
     Scanner myObj = new Scanner(System.in);
@@ -23,7 +24,6 @@ public class player {
 
     String[] weapon = {"Broken Sword","0"};
     
-
 
     public player(){}
 
@@ -143,7 +143,6 @@ public class player {
     }
 
 
-
     public String getName() {
         return this.name;
     }
@@ -153,25 +152,14 @@ public class player {
         return this.hp;
     }
 
+    public int getArmor(){
+        return this.armor;
+    }
+
     public void setHp(int hp) {
         this.hp = hp;
     }
 
-    public int getDmgMod() {
-        return this.dmgMod;
-    }
-
-    public void setDmgMod(int dmgMod) {
-        this.dmgMod = dmgMod;
-    }
-
-    public int getHitMod() {
-        return this.hitMod;
-    }
-
-    public void setHitMod(int hitMod) {
-        this.hitMod = hitMod;
-    }
 
     public int getHpMod() {
         return this.hpMod;
@@ -187,18 +175,17 @@ public class player {
 
     public void setXp(int xp) {
         this.xp = xp;
+        if(this.xp >= 1000 + level*500){
+            this.xp = this.xp -1000;
+            levelUp();
+        }
     }
 
-    public int getArmor() {
-        return this.armor;
-    }
-
-    public void setArmor(int armor) {
-        this.armor = armor;
+    public void levelUp(){
+        hp += 10;
     }
     
-
-
+    
     
 
 }
