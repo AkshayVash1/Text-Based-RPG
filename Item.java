@@ -1,3 +1,4 @@
+/*A*/
 import java.util.Random;
 
 public class Item {
