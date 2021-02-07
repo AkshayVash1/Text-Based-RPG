@@ -37,6 +37,8 @@ public class Main {
         map.printList();
         g.newMap(map);
         g.updateStats(p);
+        g.updateArmor(p);
+        g.updateWeapon(p);
 
         myOutput.append("\n\n");
 
@@ -144,8 +146,10 @@ public class Main {
 
         if (main_drop.getType().equalsIgnoreCase("sword") || main_drop.getType().equalsIgnoreCase("greatsword")) {
             p.addWeapon(main_drop.getName(), main_drop.getDamageMod());
+            g.updateWeapon(p);
         } else {
             p.addArmor(main_drop.getName(), main_drop.getSlot(), main_drop.getAC());
+            g.updateArmor(p);
         }
     }
 

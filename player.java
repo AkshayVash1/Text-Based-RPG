@@ -94,7 +94,7 @@ public class player {
         }
         else{
             do{
-                g.getOutput().append("Would you like to replace one of your potions?");
+                g.getOutput().append("Would you like to replace one of your potions?\n");
                 int j = 1;
                 for (Item i : potionSlots){
                     g.getOutput().append(j+"."+i.getName()+"\n");

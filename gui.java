@@ -18,7 +18,7 @@ public class gui extends JFrame implements ActionListener {
 
     private JButton start,help;
     private JButton s;
-    private JLabel titleCard,back,stats,floor;
+    private JLabel titleCard,back,stats,floor,armor,weapon;
     private JTextArea input,output;
     private JPanel miniMap,playerDetail;
     private JLabel[][] map = new JLabel[3][3];
@@ -48,9 +48,9 @@ public class gui extends JFrame implements ActionListener {
         panel.setBounds(0,0,1200,750);
         panel.setBackground(Color.black);
         miniMap.setBackground(Color.BLACK);
-        playerDetail.setBounds(0,0,400,400);
+        playerDetail.setBounds(0,0,350,400);
         playerDetail.setBackground(Color.black);
-        miniMap.setBounds(662,75,264,264);
+        miniMap.setBounds(662,75,239,264);
 
         input = new JTextArea();
         output = new JTextArea();
@@ -88,6 +88,8 @@ public class gui extends JFrame implements ActionListener {
         start = new JButton("Start", startIcon);
         help = new JButton("Help", helpIcon);
         stats = new JLabel("HP,XP,LEVEL");
+        armor = new JLabel("Head,Chest,Legs,Boots,Shield", SwingConstants.CENTER);
+        weapon = new JLabel("Weapon", SwingConstants.CENTER);
         floor = new JLabel("Floor 1");
         titleCard = new JLabel("Dungeon Dwellers");
         back = new JLabel(startBack);
@@ -108,6 +110,11 @@ public class gui extends JFrame implements ActionListener {
         titleCard.setForeground(Color.white);
         stats.setFont(new Font("Verdana", Font.BOLD, 12));
         stats.setForeground(Color.white);
+        armor.setFont(new Font("Verdana", Font.BOLD, 12));
+        armor.setForeground(Color.white);
+        weapon.setFont(new Font("Verdana", Font.BOLD, 12));
+        weapon.setForeground(Color.white);
+
 
         help.addActionListener(this);
         help.setActionCommand(Actions.HELP.name());
@@ -115,6 +122,8 @@ public class gui extends JFrame implements ActionListener {
         start.setActionCommand(Actions.START.name());
 
         playerDetail.add(stats);
+        playerDetail.add(armor);
+        playerDetail.add(weapon);
 
         panel.setLayout(null);
         panel.add(start);
@@ -158,7 +167,16 @@ public class gui extends JFrame implements ActionListener {
 
 
     public void updateStats(player player){
-        stats.setText("Player Name: " + player.getName() + "\n HP: " +player.getHp()+" / "+player.getMaxHP()+"\n XP: "+player.getXp()+"\n Level: "+player.getLevel());
+        stats.setText("Player Name: " + player.getName() +" Level: "+player.getLevel() + " HP: " +player.getHp()+" / "+player.getMaxHP()+" XP: "+player.getXp());
+    }
+
+    public void updateArmor(player player){
+        armor.setText("<html><br/>Head Piece: " + player.armorSlots[0][1] + "<br/> <br/>Chest Armor: " + player.armorSlots[1][1] + "<br/> <br/>Leg Armor: " + player.armorSlots[2][1] + "<br/><br/> Boots: " + player.armorSlots[3][1] + "<br/><br/> Shield: " + player.armorSlots[4][1] + "</html>");
+        
+    }
+
+    public void updateWeapon(player player){
+        weapon.setText("<html> <br/>Weapon: " + player.weapon[0] + "</html>");
     }
 
     public void newMap(Map newMap){
