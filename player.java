@@ -21,13 +21,15 @@ public class player {
         {"offhand","None","0"}
     };
     ArrayList<Item> potionSlots = new ArrayList<>();
+    gui g;
 
     String[] weapon = {"Broken Sword","0"};
 
     public player(){}
 
-    public player(String name){
+    public player(String name, gui g){
         this.name = name;
+        this.g = g;
     }
 
     public int dice(int size){
@@ -35,30 +37,27 @@ public class player {
     }
 
     public void attack(Monster monster){
-        System.out.println("TO HIT: " + hitMod);
         if(dice(20)+hitMod > monster.getArmor()){
             int roll = dice(20);
             int damage = roll+dmgMod;
-            System.out.println("ROLL: " + roll + "| MOD: " + dmgMod);
-            System.out.println("You struck the "+monster.getName()+" for "+damage+" damage!");
+            g.getOutput().append("You struck the "+monster.getName()+" for "+damage+" damage!\n\n");
             monster.takeDamage(damage);
         }
         else{
-            System.out.println("The monster evaded your attack!");
+            g.getOutput().append("The monster evaded your attack!\n\n");
         }
 
     }
-    
     public void takeDamage(int dmg){
-        System.out.println(name+" was hit for "+dmg+" damage!");
+        g.getOutput().append("You took "+dmg+" damage!\n\n");
         this.hp = hp - dmg;
 
     }
-    
+
     public void addArmor(String armorName,int row, int value){
         boolean cycle = true;
         if(armorSlots[row][2].equals("0")){
-            System.out.println("Your '"+armorSlots[row][1]+"' has been replaced with '"+armorName+"'");
+            g.getOutput().append("Your '"+armorSlots[row][1]+"' has been replaced with '"+armorName+"'");
 
             armorSlots[row][1] = armorName;
             armorSlots[row][2] = Integer.toString(value);
@@ -66,23 +65,22 @@ public class player {
         }
         else{
             do{
-                System.out.println("Would you like to replace your current item: "+armorSlots[row][1]+",(Armor Value: "+armorSlots[row][2]+")");
-                System.out.println("Yes or No:");
-                String choice = myObj.nextLine();
+                g.getOutput().append("Would you like to replace your current item: "+armorSlots[row][1]+",(Armor Value: "+armorSlots[row][2]+") (Yes or No)");
+                String choice = getUserInput(g);
                 if(choice.equals("Y") || choice.equals("y") || choice.equals("Yes") || choice.equals("yes")){
                     armor = armor - Integer.valueOf(armorSlots[row][2]);
                     armorSlots[row][1] = armorName;
                     armorSlots[row][2] = Integer.toString(value);
                     armor = armor + value;
-                    System.out.println("Your "+armorSlots[row][1]+"-piece has been replaced with"+armorName);
+                    g.getOutput().append("Your "+armorSlots[row][1]+"-piece has been replaced with"+armorName);
                     cycle = false;
                 }
                 else if(choice.equalsIgnoreCase("N") || choice.equalsIgnoreCase("No")){
-                    System.out.println("Your "+armor+"-piece has not been replaced");
+                    g.getOutput().append("Your "+armorSlots[row][1]+" has not been replaced");
                     cycle = false;
                 }
                 else{
-                    System.out.println("Invalid input... Try again");
+                    g.getOutput().append("Invalid input... Try again");
                 }
             }while(cycle == true);
         }
@@ -93,29 +91,28 @@ public class player {
         boolean cycle = true;
         if(potionSlots.size() < 5){
             potionSlots.add(potion);
-            //System.out.println(potion.getName() + " was added to your inventory!");
         }
         else{
             do{
-                System.out.println("Would you like to replace one of your potions?");
+                g.getOutput().append("Would you like to replace one of your potions?");
                 int j = 1;
                 for (Item i : potionSlots){
-                    System.out.print(j+"."+i.getName()+"\n");
+                    g.getOutput().append(j+"."+i.getName()+"\n");
                     j++;
                 }
-                System.out.println("Potion 1,2,3,4,5 or none");
-                String choice = myObj.nextLine();
+                g.getOutput().append("Potion 1,2,3,4,5 or none");
+                String choice = getUserInput(g);
                 if(choice.equals("1") || choice.equals("2") || choice.equals("3") || choice.equals("4") || choice.equals("5")){
                     potionSlots.remove(Integer.valueOf(choice)-1);
                     potionSlots.add(potion);
                     cycle = false;
                 }
                 else if(choice.equals("none") || choice.equals("None")){
-                    System.out.println("No potion was replaced...");
+                    g.getOutput().append("No potion was replaced...");
                     cycle = false;
                 }
                 else{
-                    System.out.println("Invalid input... Try again");
+                    g.getOutput().append("Invalid input... Try again");
                 }
 
             }while(cycle == true);
@@ -126,11 +123,11 @@ public class player {
     public void addWeapon(String weaponName, int weaponDmg){
         boolean cycle = true;
         do{
-            System.out.println("Would you like to replace your "+weapon[0]+"?");
-            System.out.println("Yes or No?");
-            String choice = myObj.nextLine();
+            g.getOutput().append("Would you like to replace your "+weapon[0]+"?   ");
+            g.getOutput().append("(Yes or No)\n");
+            String choice = getUserInput(g);
             if(choice.equals("y") || choice.equals("Y") || choice.equals("yes") || choice.equals("Yes")){
-                System.out.println("Your "+weapon[0]+" was replaced with "+weaponName);
+                g.getOutput().append("Your "+weapon[0]+" was replaced with "+weaponName);
                 dmgMod = dmgMod - Integer.valueOf(weapon[1]);
                 weapon[0] = weaponName;
                 weapon[1] = Integer.toString(weaponDmg);
@@ -138,11 +135,11 @@ public class player {
                 cycle = false;
             }
             else if(choice.equals("n") || choice.equals("N") || choice.equals("No") || choice.equals("no")){
-                System.out.println("Your weapon was not replaced...");
+                g.getOutput().append("Your weapon was not replaced...");
                 cycle = false;
             }
             else{
-                System.out.println("Invalid input... Try again");
+                g.getOutput().append("Invalid input... Try again");
             }
 
         }while(cycle == true);
@@ -153,16 +150,16 @@ public class player {
         do{
             int pos = 1;
             for(Item i : potionSlots){
-                System.out.print(pos+". "+ i.getName()+ "\n");
+                g.getOutput().append(pos+". "+ i.getName()+ "\n\n");
                 pos++;
             }
-            System.out.println(pos + ". back");
-            System.out.println("Which potion would you like to use?");
-            String choice = myObj.nextLine();
+            g.getOutput().append(pos + ". back\n\n");
+            g.getOutput().append("Which potion would you like to use?\n");
+            String choice = getUserInput(g);
             if(Integer.valueOf(choice) <= potionSlots.size() && Integer.valueOf(choice) > 0){
                 int healing = potionSlots.get(Integer.valueOf(choice)-1).getHealing();
-                this.setHp(this.getHp() + healing);
-                System.out.println("You healed " + healing + " HP!");
+                this.setHp(healing);
+                g.getOutput().append("You healed for " + healing + " HP!\n");
                 potionSlots.remove(Integer.valueOf(choice)-1);
                 cycle = false;
             }
@@ -170,7 +167,7 @@ public class player {
                 cycle = false;
             }
             else{
-                System.out.println("Invalid selection... try again.");
+                g.getOutput().append("Invalid selection... try again.\n");
             }
         }while(cycle);
     }
@@ -182,17 +179,33 @@ public class player {
     public void printInventory(){
         int j = 1;
         if(potionSlots.size() == 0){
-            System.out.println("Your bag is empty...");
+            g.getOutput().append("Your bag is empty...\n");
         }
         else{
-            System.out.println("You search through your bag...");
+            g.getOutput().append("You search through your bag...\n");
             for(Item i : potionSlots){
-                System.out.println(j+"."+i.getName());
+                g.getOutput().append(j+"."+i.getName()+"\n");
                 j++;
             }
         }
     }
+    private String getUserInput(gui g) {
+        String input;
+        do{
+            input = g.getUserString();
+            g.getOutput().append(input);
+        }while(input == null);
 
+        g.setUserString(null);
+        g.getOutput().append("\n");
+        g.getInput().setText("");
+
+        return input;
+    }
+
+    public int getLevel(){
+        return level;
+    }
     public int getDamageMod(){
         return dmgMod;
     }
@@ -211,7 +224,7 @@ public class player {
 
     public void setHp(int hp) {
         if(this.hp + hp <= maxHp){
-            this.hp = hp;
+            this.hp = this.hp + hp;
         }
         else{
             this.hp = maxHp;
@@ -248,8 +261,8 @@ public class player {
         hp = maxHp;
         hitMod+=1;
 
-        System.out.println("You leveled up!");
-        System.out.println("New Level: " + level +"\n\t Hp: " + hp + "\n\t hitMod: " + hitMod);
+        g.getOutput().append("You leveled up!\n");
+        g.getOutput().append("New Level: " + level +"\n\t Hp: " + hp + "\n\t hitMod: " + hitMod+"\n");
     }
 
 }

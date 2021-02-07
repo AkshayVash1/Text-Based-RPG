@@ -13,9 +13,12 @@ public class Room {
     private int floor;
     private boolean visited = false;
     private Random rand = new Random();
+    private gui g;
 
 
-    public Room(String type, int row, int collumn, int floor){
+    public Room(String type, int row, int collumn, int floor, gui g){
+        this.g = g;
+
         if(row == 0){
             N = -1;
             S = 1;
@@ -48,21 +51,24 @@ public class Room {
         switch (type){
             case "Combat":
                 String monsterType = monsterTypes[rand.nextInt(monsterTypes.length)] ;
-                monster = new Monster(monsterType, floor);
-                description = "You enter the room and before you lies a resting " + monsterType + ".";
+                monster = new Monster(monsterType, floor, g);
+                description = "You enter the room and before you lies a resting " + monsterType + "...";
                 break;
             case "Treasure":
-                description = "You enter a brightly lit room. There are not any immediate threats nearby, but in the center of the room lies a battered wooden chest";
+                description = "You enter a brightly lit room. There are not any immediate threats nearby, but in the center of the room lies a battered wooden chest...";
                 break;
             case "Ascend":
                 description = "As you enter the room a spiriling staircase leads into a dark room above you... Do you wish to ascend or continue exploring the floor?";
                 break;
             case "Start":
-                description = "You find yourself in a dark room, with nothing but cracked walls around you";
+                description = "You find yourself in a dark room, with nothing but cracked walls around you...";
                 break;
             case "Boss":
-                monster = new Monster("Follower of Demunes", floor);
-                description = "You enter a very large space and in the center stands a great " + monster.getName();
+                monster = new Monster("Follower of Demunes", floor, g);
+                description = "As you enter the large room, in the center stands a " + monster.getName() + " as he slowly turns to face you...";
+                break;
+            case "Boss Start":
+                description = "As you arrive at the new floor, you notice a significant change in atmostphere... Ahead of you is a single door that seems to lead into a large room";
                 break;
             default:
                 break;
@@ -70,7 +76,7 @@ public class Room {
     }
 
     public void enterRoom(){
-        System.out.println(description);
+        g.getOutput().append(description + "\n\n");
     }
 
     public void setVisited(){

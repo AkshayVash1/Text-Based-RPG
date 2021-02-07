@@ -14,7 +14,7 @@ public class Map {
     private int floor;
     private Random rand = new Random();
 
-    public Map(int floor){
+    public Map(int floor, gui g){
         int random_int;
         String type;
         this.floor = floor;
@@ -24,9 +24,13 @@ public class Map {
         int num_start = 0;
 
         if(floor % 4 == 0){
-            Room room = new Room("Boss", 0, 0, floor);
-            layout[0][0] = room;
+            for(int i = 0; i < size; i++){
+                for(int j = 0; j < size; j++){
+                    layout[i][j] = new Room("Boss", i, j, floor, g);
+                }
+            }
             current_x = current_y = 0;
+            layout[0][0] = new Room("Boss Start", 0, 0, floor, g);
             currentRoom = layout[0][0];
         }
         else{
@@ -40,22 +44,22 @@ public class Map {
                         type = roomTypes[random_int];
 
                         if(type == "Ascend" && num_ascend != 1){
-                            layout[r][c] = new Room("Ascend", r, c, floor);
+                            layout[r][c] = new Room("Ascend", r, c, floor, g);
                             num_ascend += 1;
                         }
                         else if(type == "Start" && num_start != 1){
-                            layout[r][c] = new Room("Start", r, c, floor);
+                            layout[r][c] = new Room("Start", r, c, floor, g);
                             currentRoom = layout[r][c];
                             current_x = r;
                             current_y = c;
                             num_start += 1;
                         }
                         else if(type == "Combat" && num_combat != 4){
-                            layout[r][c] = new Room("Combat", r, c, floor);
+                            layout[r][c] = new Room("Combat", r, c, floor, g);
                             num_combat += 1;
                         }
                         else if(type == "Treasure" && num_treasure != 3){
-                            layout[r][c] = new Room("Treasure", r, c, floor);
+                            layout[r][c] = new Room("Treasure", r, c, floor, g);
                             num_treasure += 1;
                         }
                     }
@@ -75,6 +79,10 @@ public class Map {
     }
     public int getFloor(){
         return floor;
+    }
+
+    public Room[][] getLayout(){
+        return layout;
     }
 
     public Room moveRooms(int direction){
