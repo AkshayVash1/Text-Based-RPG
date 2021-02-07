@@ -50,11 +50,13 @@ public class Main {
                     do{
                         map.getLayout()[2][2].enterRoom();
                         startCombat(map.getLayout()[2][2].getMonster(), p, g);
+                        g.getOutput().append("The follower of Demunes falls before you... As you continue towards the stairs at the end of the room");
                         floor ++;
                         map = new Map(floor, g);
                         map.getCurrentRoom().enterRoom();
-                        continue GAME;
+                        g.newMap(map);
 
+                        continue GAME;
                     }while(p.getHp()>0);
 
                 }else{
