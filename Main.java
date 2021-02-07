@@ -15,7 +15,7 @@ public class Main {
 
         gui g = new gui();
         Main main = new Main();
-        
+
         JTextArea myOutput = g.getOutput();
         JTextArea myInput = g.getInput();
 

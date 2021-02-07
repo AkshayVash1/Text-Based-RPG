@@ -167,12 +167,13 @@ public class gui extends JFrame implements ActionListener {
 
 
     public void updateStats(player player){
-        stats.setText("Player Name: " + player.getName() +" Level: "+player.getLevel() + " HP: " +player.getHp()+" / "+player.getMaxHP()+" XP: "+player.getXp());
+        stats.setText("<html><font color=green>Name: </font>" + player.getName() +" <font color=green>Level:</font> "+player.getLevel() + "<font color=yellow>(" + player.getXp() +"/"+ (250 + player.getLevel()*250) +
+        ")</font> <font color=red>HP: </font>" + player.getHp()+" / "+player.getMaxHP());
     }
 
     public void updateArmor(player player){
-        armor.setText("<html><br/>Head Piece: " + player.armorSlots[0][1] + "<br/> <br/>Chest Armor: " + player.armorSlots[1][1] + "<br/> <br/>Leg Armor: " + player.armorSlots[2][1] + "<br/><br/> Boots: " + player.armorSlots[3][1] + "<br/><br/> Shield: " + player.armorSlots[4][1] + "</html>");
-        
+        armor.setText("<html><br/>Head Piece: " + player.armorSlots[0][1] + "<br/> <br/>Chest Armor: " + player.armorSlots[1][1] + "<br/> <br/>Leg Armor: " + player.armorSlots[2][1] +
+        "<br/><br/> Boots: " + player.armorSlots[3][1] + "<br/><br/> Shield: " + player.armorSlots[4][1] + "</html>");
     }
 
     public void updateWeapon(player player){
