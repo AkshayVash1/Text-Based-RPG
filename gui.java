@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.border.Border;
 
 //import jdk.javadoc.internal.doclets.formats.html.resources.standard;
 
@@ -29,6 +30,11 @@ public class gui extends JFrame implements ActionListener {
     ImageIcon ascendIn = new ImageIcon("Icons/ascend_in.jpg");
     ImageIcon ascendOut = new ImageIcon("Icons/ascend_out.jpg");
     ImageIcon boss = new ImageIcon("Icons/boss.jpg");
+    ImageIcon startIn = new ImageIcon("Icons/start_in.jpg");
+    ImageIcon startout = new ImageIcon("Icons/start_out.jpg");
+    ImageIcon startIcon = new ImageIcon("Icons/start.jpg");
+    ImageIcon helpIcon = new ImageIcon("Icons/help.jpg");
+
 
 
 
@@ -40,20 +46,29 @@ public class gui extends JFrame implements ActionListener {
         playerDetail = new JPanel();
 
         panel.setBounds(0,0,1200,750);
-        panel.setBackground(Color.white);
+        panel.setBackground(Color.black);
+        miniMap.setBackground(Color.BLACK);
         playerDetail.setBounds(0,0,400,400);
         playerDetail.setBackground(Color.black);
-        miniMap.setBounds(400,0,800,400);
+        miniMap.setBounds(662,75,264,264);
 
         input = new JTextArea();
         output = new JTextArea();
-        output.setBounds(0,400,1200,245);
-        input.setBounds(0,655,1200,95);
+        output.setBounds(0,400,1184,245);
+        input.setBounds(0,655,1184,95);
         input.setBackground(Color.black);
         input.setForeground(Color.white);
         output.setBackground(Color.black);
         output.setForeground(Color.white);
         output.setEditable(false);
+
+
+        //adding borders
+        Border gray = BorderFactory.createLineBorder(Color.gray);
+        //miniMap.setBorder(gray);
+        input.setBorder(gray);
+        output.setBorder(gray);
+        playerDetail.setBorder(gray);
 
         input.addKeyListener(new KeyListener(){
             @Override
@@ -70,8 +85,8 @@ public class gui extends JFrame implements ActionListener {
             }
         });
 
-        start = new JButton("Start");
-        help = new JButton("Help");
+        start = new JButton("Start", startIcon);
+        help = new JButton("Help", helpIcon);
         stats = new JLabel("HP,XP,LEVEL");
         floor = new JLabel("Floor 1");
         titleCard = new JLabel("Dungeon Dwellers");
@@ -90,7 +105,9 @@ public class gui extends JFrame implements ActionListener {
         titleCard.setBounds(375,50,450,300);
         back.setBounds(0,0,1200,750);
         titleCard.setFont(new Font("Verdana", Font.BOLD, 43));
-        titleCard.setForeground(Color.black);
+        titleCard.setForeground(Color.white);
+        stats.setFont(new Font("Verdana", Font.BOLD, 12));
+        stats.setForeground(Color.white);
 
         help.addActionListener(this);
         help.setActionCommand(Actions.HELP.name());
@@ -128,6 +145,7 @@ public class gui extends JFrame implements ActionListener {
             "How far will you make it...\n\nDesigned By: Akshay Vashisht, Bilal Chaudhry, Kousha Motazedian, Matthew Parker ","Help",JOptionPane.INFORMATION_MESSAGE);
         }
         else if(e.getActionCommand() == Actions.START.name()){
+            titleCard.setVisible(false);
             start.setVisible(false);
             help.setVisible(false);
             input.setVisible(true);
@@ -140,14 +158,13 @@ public class gui extends JFrame implements ActionListener {
 
 
     public void updateStats(player player){
-        stats.setText("HP: "+player.getHp()+"/"+player.getMaxHP()+"\nXP: "+player.getXp()+"\nLevel: "+player.getLevel());
+        stats.setText("Player Name: " + player.getName() + "\n HP: " +player.getHp()+" / "+player.getMaxHP()+"\n XP: "+player.getXp()+"\n Level: "+player.getLevel());
     }
 
     public void newMap(Map newMap){
         for (int i = 0; i < 3; i++){
             for (int j = 0; j < 3; j++){
-                String type = newMap.getCurrentRoom().getType();
-                System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+                String type = newMap.getLayout()[i][j].getType();
 
                 if(type.equalsIgnoreCase("combat")){
                     map[i][j].setIcon(combatOut);
@@ -160,6 +177,9 @@ public class gui extends JFrame implements ActionListener {
                 }
                 else if(type.equalsIgnoreCase("ascend")){
                     map[i][j].setIcon(ascendOut);
+                }
+                else if(type.equalsIgnoreCase("start") || type.equalsIgnoreCase("boss start")){
+                    map[i][j].setIcon(startIn);
                 }
                 map[i][j].setVisible(true);
             }
@@ -193,6 +213,10 @@ public class gui extends JFrame implements ActionListener {
 
     public String getUserString(){
         return userString;
+    }
+
+    public void setUserString(String input){
+        userString = input;
     }
 
     public JTextArea getOutput(){

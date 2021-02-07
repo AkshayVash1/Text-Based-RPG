@@ -10,15 +10,17 @@ public class Monster{
     private int hitMod;
     Random rand = new Random();
     private player player = new player();
+    private gui g;
 
     private int d(int size){return rand.nextInt(size) + 1;}
 
 
     public Monster(){}
 
-    public Monster(String name, int level){
+    public Monster(String name, int level, gui g){
         this.name = name;
         this.level = level;
+        this.g = g;
 
         switch (name){
             case "Goblin":
@@ -46,7 +48,7 @@ public class Monster{
                     this.attack = this.attack +2;
                 }
                 break;
-            
+
             case "Ogre":
                 this.hp = rand.nextInt(5) + 25;
                 this.xp = 300;
@@ -60,7 +62,7 @@ public class Monster{
                 }
                 break;
              case "Follower of Demunes":
-                this.hp = 100;
+                this.hp = 80;
                 this.xp = 500;
                 this.hitMod = 5;
                 this.attack = 20;
@@ -94,12 +96,26 @@ public class Monster{
             p.takeDamage(d(this.attack));
         }
         else{
-            System.out.println(p.getName() + "evaded the attack!");
+            g.getOutput().append("You evaded the attack!\n\n");
         }
     }
 
     public void takeDamage(int dmg){
         this.hp = this.hp - dmg;
+    }
+
+    private String getUserInput(gui g) {
+        String input;
+        do{
+            input = g.getUserString();
+            g.getOutput().append(input);
+        }while(input == null);
+
+        g.setUserString(null);
+        g.getOutput().append("\n");
+        g.getInput().setText("");
+
+        return input;
     }
 
 

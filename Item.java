@@ -16,16 +16,8 @@ public class Item {
 
     private String type;
 
-    private String quality; /*{"Lesser", "", "Greater" };*/
+    private String quality;
 
-
-    /*
-    public String weapon_type; /*{"Sword", "Greatsword"};
-
-    public String magic_type; {"Potion of Healing"};
-
-    public String armor_type;  {"Head", "Chest", "Legs", "Boot", "Shield"};
-    */
     public Item (String name, String quality){
         this.name = name;
         this.quality = quality;
@@ -65,19 +57,19 @@ public class Item {
                 setDamageMod(quality);
                 break;
 
-            case "Head":
+            case "Head Guard":
                 this.AC = 0;
                 setAC(quality);
                 slot = 0;
                 break;
 
-            case "Chest":
+            case "Chest Armor":
                 this.AC = 0;
                 setAC(quality);
                 slot = 1;
                 break;
 
-            case "Legs":
+            case "Leg Armor":
                 this.AC = 0;
                 setAC(quality);
                 slot = 2;
