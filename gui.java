@@ -32,6 +32,8 @@ public class gui extends JFrame implements ActionListener {
     ImageIcon boss = new ImageIcon("Icons/boss.jpg");
     ImageIcon startIn = new ImageIcon("Icons/start_in.jpg");
     ImageIcon startout = new ImageIcon("Icons/start_out.jpg");
+    ImageIcon startIcon = new ImageIcon("Icons/start.jpg");
+    ImageIcon helpIcon = new ImageIcon("Icons/help.jpg");
 
 
 
@@ -83,8 +85,8 @@ public class gui extends JFrame implements ActionListener {
             }
         });
 
-        start = new JButton("Start");
-        help = new JButton("Help");
+        start = new JButton("Start", startIcon);
+        help = new JButton("Help", helpIcon);
         stats = new JLabel("HP,XP,LEVEL");
         floor = new JLabel("Floor 1");
         titleCard = new JLabel("Dungeon Dwellers");
