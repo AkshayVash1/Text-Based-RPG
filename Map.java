@@ -73,7 +73,6 @@ public class Map {
     public int getCurr_y(){
         return current_y;
     }
-
     public int getFloor(){
         return floor;
     }

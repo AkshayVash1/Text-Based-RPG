@@ -10,7 +10,7 @@ public class Monster{
     private int hitMod;
     Random rand = new Random();
     private player player = new player();
-    
+
     private int d(int size){return rand.nextInt(size) + 1;}
 
 
