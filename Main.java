@@ -1,30 +1,47 @@
 import java.util.Scanner;
+import javax.swing.*;
+
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.Random;
+
 /**
  * Main
  */
 public class Main {
-
     public static void main(String[] args) {
+
+        gui g = new gui();
+
+        JTextArea myOutput = g.getOutput();
+        JTextArea myInput = g.getInput();
+
         Scanner scanner = new Scanner(System.in);
+        String userInput;
         String userName;
         String direction;
         int floor = 1;
-        boolean running = true;
+        boolean running = false;
 
-        System.out.println("Enter a Username:");
-        userName = scanner.nextLine();
+        myOutput.append("Enter a username: \n");
+
+        userName = getUserInput(g);
 
         player p = new player(userName);
 
-        System.out.println("Welcome to the dungeon " + userName);
+        myOutput.append("Welcome to the dungeon " + userName +"\n");
 
         Map map = new Map(floor);
         map.printList();
+        g.newMap(map);
+
+        myOutput.append("\n\n");
+
         System.out.println("----------------");
         System.out.println(map.getCurr_x() + ", " + map.getCurr_y());
 
         map.getCurrentRoom().enterRoom();
+
 
         GAME:
         do{
@@ -61,7 +78,7 @@ public class Main {
                         System.out.println("Invalid input... please try again.");
                     }
                 }
-    
+
                 if(map.getCurrentRoom().getType().equalsIgnoreCase("combat")){
                     startCombat(map.getCurrentRoom().getMonster(), p);
                     map.getCurrentRoom().setDescription("Before you lies the corpse of a slain " + map.getCurrentRoom().getMonster().getName());
@@ -80,7 +97,7 @@ public class Main {
                     do{
                         System.out.println("Are you sure you want to ascend to the next floor? There is no turning back... (Yes/No)");
                         String choice = scanner.nextLine();
-    
+
                         if(choice.equalsIgnoreCase("yes") || choice.equalsIgnoreCase("y")){
                             floor ++;
                             map = new Map(floor);
@@ -96,7 +113,6 @@ public class Main {
                 }
             }
         }while(p.getHp()>0);
-
 
     }
 
@@ -206,5 +222,17 @@ public class Main {
             }
         }
         return move;
+    }
+
+    private static String getUserInput(gui g){
+        String input;
+        do{
+            input = g.getUserString();
+            g.getOutput().append(input);
+        }while(input == null);
+
+        g.getOutput().append("\n");
+
+        return input;
     }
 }
