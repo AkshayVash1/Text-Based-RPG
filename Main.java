@@ -34,7 +34,6 @@ public class Main {
         myOutput.append("Welcome to the dungeon " + userInput +"\n");
 
         Map map = new Map(floor, g);
-        map.printList();
         g.newMap(map);
         g.updateStats(p);
         g.updateArmor(p);
