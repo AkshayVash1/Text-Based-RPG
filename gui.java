@@ -1,14 +1,19 @@
 import javax.swing.*;
+
+//import jdk.javadoc.internal.doclets.formats.html.resources.standard;
+
 import java.awt.*;
 import java.awt.event.*;
 
 
-public class gui extends JFrame implements ActionListener{ 
-    
+public class gui extends JFrame implements ActionListener {
+
     private enum Actions {
         HELP,
         START
       }
+
+    private String userString;
 
     private JButton start,help;
     private JButton s;
@@ -34,7 +39,6 @@ public class gui extends JFrame implements ActionListener{
         miniMap = new JPanel();
         playerDetail = new JPanel();
 
-      
         panel.setBounds(0,0,1200,750);
         panel.setBackground(Color.white);
         playerDetail.setBounds(0,0,400,400);
@@ -50,7 +54,22 @@ public class gui extends JFrame implements ActionListener{
         output.setBackground(Color.black);
         output.setForeground(Color.white);
         output.setEditable(false);
-        
+
+        input.addKeyListener(new KeyListener(){
+            @Override
+            public void keyPressed(KeyEvent e){
+                if(e.getKeyCode() == KeyEvent.VK_ENTER){
+                    userString = input.getText();
+                }
+            }
+            @Override
+            public void keyTyped(KeyEvent e) {
+            }
+            @Override
+            public void keyReleased(KeyEvent e) {
+            }
+        });
+
         start = new JButton("Start");
         help = new JButton("Help");
         stats = new JLabel("HP,XP,LEVEL");
@@ -65,7 +84,7 @@ public class gui extends JFrame implements ActionListener{
                     miniMap.add(map[i][j]);
                 }
             }
-        
+
         start.setBounds(350,500,200,100);
         help.setBounds(650,500,200,100);
         titleCard.setBounds(375,50,450,300);
@@ -87,7 +106,6 @@ public class gui extends JFrame implements ActionListener{
         panel.add(input);
         panel.add(output);
         panel.add(back);
-        
 
         frame.setLayout(null);
         frame.add(miniMap);
@@ -104,12 +122,12 @@ public class gui extends JFrame implements ActionListener{
     }
 
     public void actionPerformed(ActionEvent e) {
-        if(e.getActionCommand() == Actions.HELP.name()){    
+        if(e.getActionCommand() == Actions.HELP.name()){
             JFrame f = new JFrame();
             JOptionPane.showMessageDialog(null,"Dungeon Dwellers is a text based dungeon crawling game.\nYou are trapped in the bottom of a dark dungeon, with no exit in sight...\n"+
             "How far will you make it...\n\nDesigned By: Akshay Vashisht, Bilal Chaudhry, Kousha Motazedian, Matthew Parker ","Help",JOptionPane.INFORMATION_MESSAGE);
         }
-        else if(e.getActionCommand() == Actions.START.name()){    
+        else if(e.getActionCommand() == Actions.START.name()){
             start.setVisible(false);
             help.setVisible(false);
             input.setVisible(true);
@@ -117,10 +135,7 @@ public class gui extends JFrame implements ActionListener{
             back.setIcon(null);
             miniMap.setVisible(true);
             playerDetail.setVisible(true);
-
         }
-
-
     }
 
 
@@ -129,13 +144,13 @@ public class gui extends JFrame implements ActionListener{
     }
 
     public void newMap(Map newMap){
-        
         for (int i = 0; i < 3; i++){
             for (int j = 0; j < 3; j++){
                 String type = newMap.getCurrentRoom().getType();
+                System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 
                 if(type.equalsIgnoreCase("combat")){
-                    map[i][j].setIcon(combatOut);          
+                    map[i][j].setIcon(combatOut);
                 }
                 else if(type.equalsIgnoreCase("treasure")){
                     map[i][j].setIcon(treasureOut);
@@ -146,6 +161,7 @@ public class gui extends JFrame implements ActionListener{
                 else if(type.equalsIgnoreCase("ascend")){
                     map[i][j].setIcon(ascendOut);
                 }
+                map[i][j].setVisible(true);
             }
         }
     }
@@ -170,7 +186,22 @@ public class gui extends JFrame implements ActionListener{
 
     }
 
+    public String submitAction(JTextArea input){
+        userString = input.getText();
+        return userString;
+    }
 
+    public String getUserString(){
+        return userString;
+    }
+
+    public JTextArea getOutput(){
+        return output;
+    }
+
+    public JTextArea getInput(){
+        return input;
+    }
 
     public static void main(String args[]){
         new gui();

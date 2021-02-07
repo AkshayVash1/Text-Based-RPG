@@ -21,7 +21,6 @@ public class player {
         {"offhand","None","0"}
     };
     ArrayList<Item> potionSlots = new ArrayList<>();
-    HashMap<Integer, Item> potionSlots1 = new HashMap<>();
 
     String[] weapon = {"Broken Sword","0"};
 
